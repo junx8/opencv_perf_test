@@ -125,7 +125,6 @@ do
         
         " |tee -a $logfpath
 
-    echo $#
     if [ $# -eq 1 ];then
         input=$1
     else
