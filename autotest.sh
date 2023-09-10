@@ -18,16 +18,24 @@ function install_prerequisites(){
 }
 
 function download_opencv(){
+    cd $scriptpath
     rm -f 4.8.0.tar.gz
     wget https://github.com/opencv/opencv/archive/refs/tags/4.8.0.tar.gz|tee -a $logfpath
     tar zvxf 4.8.0.tar.gz|tee -a $logfpath
 }
 
-function parse_result(){
-    cd $scriptpath/
-    rm parse_result.py
-    wget https://gist.githubusercontent.com/junxnone/64e547777de73775b1425f6caf259755/raw/f418241b56338a2f06c668f62c6b8f553575ae4a/parse_result.py |tee -a $logfpath
+function download_parse_script(){
+    cd $scriptpath
+    rm -f parse_result.py
+    wget https://raw.githubusercontent.com/junx8/opencv_perf_test/main/parse_result.py |tee -a $logfpath
+}
 
+function parse_singletest_result(){
+    cd $report_path/
+    python3 ../parse_result.py -jp .
+}
+
+function parse_all_result(){
     cd $report_path/
 
     python3 ../parse_result.py -bs core_base_singleTH.json \
@@ -46,6 +54,7 @@ function parse_result(){
 function testif(){
     install_prerequisites
     download_opencv
+    download_parse_script
 
     if [ $1 -eq 1 ] ||  [ $2 -eq 1 ] ;then
         cd $scriptpath/opencv-4.8.0
@@ -135,28 +144,32 @@ do
         1)
             echo -e "\nOnly Build and Test Baseline Single Thread... " |tee -a $logfpath;
             testif 1 0 0 0
+            parse_singletest_result
             break
             ;;
 
         2)
             echo -e "\nOnly Build and Test Baseline Multi Thread... " |tee -a $logfpath;
             testif 0 1 0 0
+            parse_singletest_result
             break
             ;;
         3)
             echo -e "\nOnly Build and Test SIMD Single Thread... " |tee -a $logfpath;
             testif 0 0 1 0
+            parse_singletest_result
             break
             ;;
         4)
             echo -e "\nOnly Build and Test SIMD Multi Thread... " |tee -a $logfpath;
             testif 0 0 0 1
+            parse_singletest_result
             break
             ;;
         5)
             echo -e "\nBuild and Test All ... " |tee -a $logfpath;
             testif 1 1 1 1
-            parse_result
+            parse_all_result
             break
             ;;
         *)
