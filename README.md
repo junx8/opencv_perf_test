@@ -16,5 +16,21 @@
 source autotest.sh
 ```
 
+- Only run All[5] test will generate the analysis reports
 
+```
+You are run on /home/4T1/jun/works/ov_ats/test/opencv_perf_test
+Logs will save in /home/4T1/jun/works/ov_ats/test/opencv_perf_test/script_log.txt 
+Reports will save in /home/4T1/jun/works/ov_ats/test/opencv_perf_test/perf_test_reports 
+
+You Can Run the test: 
+            1. Baseline Single Thread
+            2. Baseline Multi Thread
+            3. SIMD Single Thread
+            4. SIMD Multi Thread
+            5. All
+        
+        
+Please select the number: [1/2/3/4/5]
+```
 
