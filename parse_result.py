@@ -1,6 +1,8 @@
-import pandas as pd
+import os
 import json
 import argparse
+import pandas as pd
+import glob
 
 parser = argparse.ArgumentParser(description='OpenCV PerfTest result parser', formatter_class=argparse.RawTextHelpFormatter)
 
@@ -11,6 +13,7 @@ parser.add_argument('-sm', '--simd_multi', type=str, default='', help='simd mult
 parser.add_argument('-s', '--summary', type=str, default='', help='generate the summary file')
 parser.add_argument('-m', '--merge', nargs='+', type=str, default='', help='merge summary csv file to excel \n  [sheet name] [csv file]\n  [sheet name] [csv file]\n  ...')
 parser.add_argument('-ms', '--toms', action='store_true', help='convert origin ns to ms')
+parser.add_argument('-jp', '--json_path', type=str, default='', help='json file path for single test')
 
 args = parser.parse_args()
 
@@ -60,6 +63,13 @@ if (args.simd_multi):
     smdf = pd.DataFrame(columns=['name', 'params', 'SimdMultiTH'])
     parse_file(args.simd_multi, smdf)
     smdf.to_csv('simd_multi.csv', index=False)
+
+if (args.json_path):
+    flist = glob.glob('*.json')
+    for ifile in flist:
+        jfdf = pd.DataFrame(columns=['name', 'params', 'mean'])
+        parse_file(ifile, jfdf)
+        jfdf.to_csv(os.path.splitext(ifile)[0] + '.csv', index=False)
 
 if (args.summary):
     if (('bsdf' in dir()) and ('bmdf' in dir())
