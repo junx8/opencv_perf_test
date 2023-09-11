@@ -4,8 +4,6 @@
 ```
 .
 ├── autotest.sh  ## test script for opencv_core opencv_imgproc
-├── build_run_with_docker.sh  ## test script with docker
-├── Dockerfile  ## test docker image Dockerfile
 ├── parse_result.py ## python parse script, will auto download in the script
 └── README.md
 ```
@@ -13,10 +11,24 @@
 ## Run Test
 
 ```
-source autotest.sh
+source autotest.sh 5
+```
+> Run All Test
+
+```
+            1. Baseline Single Thread
+            2. Baseline Multi Thread
+            3. SIMD Single Thread
+            4. SIMD Multi Thread
+            5. All
 ```
 
-- Only run All[5] test will generate the analysis reports
+
+### Run Single Test
+
+```
+source autotest.sh
+```
 
 ```
 You are run on /home/4T1/jun/works/ov_ats/test/opencv_perf_test
