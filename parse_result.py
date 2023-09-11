@@ -47,22 +47,22 @@ def parse_file(file, indf):
 if (args.base_single):
     bsdf = pd.DataFrame(columns=['name', 'params', 'baseSingleTH'])
     parse_file(args.base_single, bsdf)
-    bsdf.to_csv('base_single.csv', index=False)
+    bsdf.to_csv(os.path.splitext(args.base_single)[0] + '.csv', index=False)
 
 if (args.base_multi):
     bmdf = pd.DataFrame(columns=['name', 'params', 'baseMultiTH'])
     parse_file(args.base_multi, bmdf)
-    bmdf.to_csv('base_multi.csv', index=False)
+    bmdf.to_csv(os.path.splitext(args.base_multi)[0] + '.csv', index=False)
 
 if (args.simd_single):
     ssdf = pd.DataFrame(columns=['name', 'params', 'SimdSingleTH'])
     parse_file(args.simd_single, ssdf)
-    ssdf.to_csv('simd_single.csv', index=False)
+    ssdf.to_csv(os.path.splitext(args.simd_single)[0] + '.csv', index=False)
 
 if (args.simd_multi):
     smdf = pd.DataFrame(columns=['name', 'params', 'SimdMultiTH'])
     parse_file(args.simd_multi, smdf)
-    smdf.to_csv('simd_multi.csv', index=False)
+    smdf.to_csv(os.path.splitext(args.simd_multi)[0] + '.csv', index=False)
 
 if (args.json_path):
     flist = glob.glob('*.json')
